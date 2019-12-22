@@ -44,7 +44,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "myCollection",method = RequestMethod.GET)
     public Map myCollection(User user){
-        List<Dataset> datasets = userServicer.myCollection(user.getUid());
+        List<Dataset> datasets = userServicer.myCollection(user);
         Map<String,Object> result = new HashMap<>();
         result.put("datasets",datasets);
         return result;

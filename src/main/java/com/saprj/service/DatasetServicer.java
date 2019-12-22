@@ -28,17 +28,17 @@ public class DatasetServicer {
     private CollectMapper collectMapper;
 
     //收藏数据集
-    public void collect(int uid,int did){
+    public void collect(User user,int did){
         Collect collect = new Collect();
         collect.setTime(new Date());
         collect.setDid(did);
-        collect.setUid(uid);
+        collect.setUid(user.getUid());
         collectMapper.insert(collect);
     }
 
-    public void uncollect(int uid, int did) {
+    public void uncollect(User user, int did) {
         Collect collect = new Collect();
-        collect.setUid(uid);
+        collect.setUid(user.getUid());
         collect.setDid(did);
         collectMapper.delete(collect);
     }
@@ -47,14 +47,14 @@ public class DatasetServicer {
         return datasetMapper.select(keyWord);
     }
 
-    public void upload(int uid, MultipartFile cover, MultipartFile content, Dataset dataset) {
+    public void upload(User user, MultipartFile cover, MultipartFile content, Dataset dataset) {
         //存文件
         String imgPath = FileUtil.uploadFile(cover,"img");
         String filePath = FileUtil.uploadFile(content,"dataset");
         //存数据库
         dataset.setSize(content.getSize());
         dataset.setImg(imgPath);
-        dataset.setUid(uid);
+        dataset.setUid(user.getUid());
         dataset.setUrl(filePath);
         dataset.setDownnum(0);
         datasetMapper.insertSelective(dataset);

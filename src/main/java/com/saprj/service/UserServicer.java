@@ -25,7 +25,7 @@ public class UserServicer {
         userMapper.insertSelective(user);
     }
 
-    public List<Dataset> myCollection(int uid) {
-        return collectMapper.selectByUid(uid);
+    public List<Dataset> myCollection(User user) {
+        return collectMapper.selectByUid(user.getUid());
     }
 }

@@ -30,7 +30,7 @@ public class DatesetController {
             @RequestParam(value = "imgFile") MultipartFile cover,
             @RequestParam(value = "content") MultipartFile content,
             Dataset dataset){
-        datasetServicer.upload(user.getUid(),cover,content,dataset);
+        datasetServicer.upload(user,cover,content,dataset);
         return ResponseData.ok();
     }
 
@@ -58,7 +58,7 @@ public class DatesetController {
     @ResponseBody
     @RequestMapping(value = "collect",method = RequestMethod.POST)
     public ResponseData collect(User user,int did){
-        datasetServicer.collect(user.getUid(),did);
+        datasetServicer.collect(user,did);
         return ResponseData.ok();
     }
 
@@ -66,7 +66,7 @@ public class DatesetController {
     @ResponseBody
     @RequestMapping(value = "uncollect",method = RequestMethod.POST)
     public ResponseData uncollect(User user,int did){
-        datasetServicer.uncollect(user.getUid(),did);
+        datasetServicer.uncollect(user,did);
         return ResponseData.ok();
     }
 
