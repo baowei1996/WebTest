@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.saprj.dao.CollectMapper">
+    <resultMap id="BaseResultMap" type="com.saprj.entity.Collect">
+        <id column="uid" jdbcType="INTEGER" property="uid" />
+        <id column="did" jdbcType="INTEGER" property="did" />
+        <result column="time" jdbcType="TIMESTAMP" property="time" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    uid,did,time
+  </sql>
+
+    <select id="selectByPrimaryKey" parameterType="com.saprj.entity.CollectKeys" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where uid = #{uid,jdbcType=INTEGER}
+        and did = #{did,jdbcType=INTEGER}
+    </select>
+
+    <insert id="insert" parameterType="com.saprj.entity.Collect">
+    insert into collect (uid, did, time)
+    values (#{uid,jdbcType=INTEGER}, #{did,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP})
+    </insert>
+
+    <select id="selectByUid" parameterType="java.lang.Integer" resultMap="com.saprj.dao.DatasetMapper.BaseResultMap">
+        select *
+        from collect,user,dataset
+        where collect.uid = user.uid and collect.did = dataset.did
+    </select>
+
+    <delete id="delete" parameterType="com.saprj.entity.CollectKeys">
+        delete from collect
+        where uid = #{uid,jdbcType=INTEGER}
+        and did = #{did,jdbcType=INTEGER}
+    </delete>
+
+</mapper>
