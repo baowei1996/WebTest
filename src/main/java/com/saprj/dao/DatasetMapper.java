@@ -1,6 +1,7 @@
 package com.saprj.dao;
 
 import com.saprj.entity.Dataset;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface DatasetMapper {
 
     void insertSelective(Dataset dataset);
 
-    List<Dataset> select(String keyWord);
+    List<Dataset> select(@Param(value = "keyWord") String keyWord, @Param(value = "uid") int uid);
 
     void updateByPrimaryKeySelective(Dataset dataset);
 }

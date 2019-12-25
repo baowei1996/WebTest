@@ -6,10 +6,7 @@ import com.saprj.service.DatasetServicer;
 import com.saprj.util.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
+@CrossOrigin
 @RequestMapping(value = "dataset")
 public class DatesetController {
     @Autowired
@@ -47,8 +45,8 @@ public class DatesetController {
     //按照关键字搜索数据集
     @ResponseBody
     @RequestMapping(value = "search",method = RequestMethod.GET)
-    public ResponseData search(String keyWord){
-        List<Dataset> datasets = datasetServicer.search(keyWord);
+    public ResponseData search(User user,String keyWord){
+        List<Dataset> datasets = datasetServicer.search(keyWord,user.getUid());
         ResponseData responseData = ResponseData.ok();
         responseData.putDataValue("datasets",datasets);
         return responseData;
@@ -68,6 +66,15 @@ public class DatesetController {
     public ResponseData uncollect(User user,int did){
         datasetServicer.uncollect(user,did);
         return ResponseData.ok();
+    }
+
+    //根据id获取对应数据集
+    @ResponseBody
+    @RequestMapping(value = "getDSById",method = RequestMethod.GET)
+    public ResponseData getDSById(int did){
+        ResponseData responseData = ResponseData.ok();
+        responseData.putDataValue("dataset",datasetServicer.getDSById(did));
+        return responseData;
     }
 
 }

@@ -43,8 +43,9 @@ public class DatasetServicer {
         collectMapper.delete(collect);
     }
 
-    public List<Dataset> search(String keyWord) {
-        return datasetMapper.select(keyWord);
+    public List<Dataset> search(String keyWord,int uid) {
+        String kw = keyWord == ""?null:keyWord;
+        return datasetMapper.select(kw,uid);
     }
 
     public void upload(User user, MultipartFile cover, MultipartFile content, Dataset dataset) {
@@ -88,5 +89,9 @@ public class DatasetServicer {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public Dataset getDSById(int did) {
+        return datasetMapper.selectByPrimaryKey(did);
     }
 }

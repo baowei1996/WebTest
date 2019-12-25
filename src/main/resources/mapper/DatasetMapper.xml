@@ -15,19 +15,21 @@
     <resultMap id="ResultMapWithBLOBs" type="com.saprj.entity.Dataset" extends="BaseResultMap">
         <result column="description" jdbcType="LONGVARCHAR" property="description"/>
     </resultMap>
+    <resultMap id="DatasetView" type="com.saprj.view.DatasetView" extends="ResultMapWithBLOBs">
+        <result column="time" jdbcType="TIMESTAMP" property="time"/>
+    </resultMap>
     <sql id="Base_Column_List">
     did,name,type,size,uid,tags,url,downnum,img
     </sql>
     <sql id="Blob_Column_List">
     description
     </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List" />
-        ,
-        <include refid="Blob_Column_List" />
-        from dataset
-        where did = #{did,jdbcType=INTEGER}
+    <sql id="view">
+        time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="DatasetView">
+        select dataset.*, time from dataset left join collect right join user on collect.uid = user.uid on dataset.did = collect.did
+        where dataset.did = #{did,jdbcType=INTEGER}
     </select>
 
     <insert id="insert" parameterType="com.saprj.entity.Dataset">
@@ -104,14 +106,15 @@
     </insert>
 
     <!-- 依照关键字搜索-->
-    <select id="select" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
-        select
-        <include refid="Base_Column_List" />
-        ,
-        <include refid="Blob_Column_List" />
-        from dataset
-        where name like concat('%',#{keyWord},'%')
-        or tags like concat('%',#{keyWord},'%')
+    <select id="select" resultMap="DatasetView">
+        select dataset.*, time from dataset left join collect right join user on collect.uid = user.uid on dataset.did = collect.did
+        <if test="keyWord != null">
+            where name like concat('%',#{keyWord},'%')
+            or tags like concat('%',#{keyWord},'%')
+        </if>
+        <if test="uid != 0">
+            and user.uid = #{uid,jdbcType=INTEGER}
+        </if>
     </select>
 
     <update id="updateByPrimaryKeySelective" parameterType="com.saprj.entity.Dataset">
