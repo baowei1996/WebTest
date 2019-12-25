@@ -27,9 +27,22 @@
     <sql id="view">
         time
     </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="DatasetView">
-        select dataset.*, time from dataset left join collect right join user on collect.uid = user.uid on dataset.did = collect.did
+    <select id="selectByPrimaryKey" resultMap="DatasetView">
+        select dataset.*
+        <if test="uid != 0">
+            , time
+        </if>
+        <if test="uid != 0">
+            from dataset left join collect right join user on collect.uid = user.uid on dataset.did = collect.did
+        </if>
+        <if test="uid == 0">
+            from dataset
+        </if>
         where dataset.did = #{did,jdbcType=INTEGER}
+        <if test="uid != 0">
+            and user.uid = #{uid,jdbcType=INTEGER}
+        </if>
+
     </select>
 
     <insert id="insert" parameterType="com.saprj.entity.Dataset">

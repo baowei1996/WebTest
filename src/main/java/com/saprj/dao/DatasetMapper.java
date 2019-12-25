@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface DatasetMapper {
-    Dataset selectByPrimaryKey(int did);
+    Dataset selectByPrimaryKey(@Param(value = "did")int did,@Param(value = "uid")int uid);
 
     void insert(Dataset dataset);
 

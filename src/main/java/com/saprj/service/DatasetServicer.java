@@ -63,7 +63,7 @@ public class DatasetServicer {
 
     public void download(HttpServletRequest request, HttpServletResponse response, User user, int did) {
         //TODO do something
-        Dataset dataset = datasetMapper.selectByPrimaryKey(did);
+        Dataset dataset = datasetMapper.selectByPrimaryKey(did,0);
         //更新下载数
         dataset.setDownnum(dataset.getDownnum()+1);
         datasetMapper.updateByPrimaryKeySelective(dataset);
@@ -91,7 +91,7 @@ public class DatasetServicer {
         }
     }
 
-    public Dataset getDSById(int did) {
-        return datasetMapper.selectByPrimaryKey(did);
+    public Dataset getDSById(int did,int uid) {
+        return datasetMapper.selectByPrimaryKey(did,uid);
     }
 }

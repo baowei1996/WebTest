@@ -71,9 +71,9 @@ public class DatesetController {
     //根据id获取对应数据集
     @ResponseBody
     @RequestMapping(value = "getDSById",method = RequestMethod.GET)
-    public ResponseData getDSById(int did){
+    public ResponseData getDSById(User user,int did){
         ResponseData responseData = ResponseData.ok();
-        responseData.putDataValue("dataset",datasetServicer.getDSById(did));
+        responseData.putDataValue("dataset",datasetServicer.getDSById(did,user.getUid()));
         return responseData;
     }
 
