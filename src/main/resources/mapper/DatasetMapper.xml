@@ -107,9 +107,19 @@
 
     <!-- 依照关键字搜索-->
     <select id="select" resultMap="DatasetView">
-        select dataset.*, time from dataset left join collect right join user on collect.uid = user.uid on dataset.did = collect.did
+        select dataset.*
+        <if test="uid != 0">
+            , time
+        </if>
+        <if test="uid != 0">
+            from dataset left join collect right join user on collect.uid = user.uid on dataset.did = collect.did
+        </if>
+         <if test="uid == 0">
+             from dataset
+         </if>
+        where 1
         <if test="keyWord != null">
-            where name like concat('%',#{keyWord},'%')
+            or name like concat('%',#{keyWord},'%')
             or tags like concat('%',#{keyWord},'%')
         </if>
         <if test="uid != 0">
