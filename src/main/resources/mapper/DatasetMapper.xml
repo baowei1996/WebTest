@@ -130,14 +130,12 @@
          <if test="uid == 0">
              from dataset
          </if>
-        where 1
+        <where>
         <if test="keyWord != null">
             or name like concat('%',#{keyWord},'%')
             or tags like concat('%',#{keyWord},'%')
         </if>
-        <if test="uid != 0">
-            and user.uid = #{uid,jdbcType=INTEGER}
-        </if>
+        </where>
     </select>
 
     <update id="updateByPrimaryKeySelective" parameterType="com.saprj.entity.Dataset">
